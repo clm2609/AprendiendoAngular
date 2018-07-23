@@ -191,3 +191,4 @@ Aunque en nuestro ejemplo esto da un error. Para resolverlo modificamos details.
 ...
 </div>
 ```
+
