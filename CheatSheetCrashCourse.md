@@ -1,5 +1,21 @@
 # Angular 6 Crash Course
 
+## Descargando Angular
+
+```console
+$ npm install -g @angular/cli
+```
+
+Descargas de forma global el command line interface de Angular, que te permite:
+
+* Crear un  nuevo proyecto Angular
+* Servirlo para desarrollo
+* Construir el proyecto
+* Crear componentes, directivas, servicios y otras clases, añadiendolas a ngModule directamente
+* Crear y ejecutar los archivos de test directamente.
+
+Una vez instalado puedes usar el comando ```ng```.
+
 ## Creando el proyecto
 
 ```console
@@ -12,7 +28,7 @@ Crea un nuevo proyecto de angular, con todo lo necesario para un inicio rapido. 
 $ ng serve -o
 ```
 
-Sirve el proyecto en 0.0.0.0:4200, se abre una nueva pestaña del navegador.
+Sirve el proyecto en 0.0.0.0:4200, con -o se abre una nueva pestaña del navegador.
 
 ## Creando componentes y servicios
 
@@ -30,6 +46,7 @@ $ ng generate service NombreDelServicio
 Genera servicios y hace todo lo necesario para poder acceder a ellos directamente. Genera el servicio en ts y tests.
 
 ## Routing
+
 En  /src/app/app-routing.module.ts:
 
 ```typescript
@@ -80,6 +97,7 @@ imports: [
 Una vez tienes el HttpClient en el servicio y el HttpClientModule en los modulos puedes realizar peticiones http. Si importas el servicio y llamas a la funcion getUsers recibiras el json con los usuarios.
 
 ## Mostrando datos
+
 Ya podemos conseguir los datos, pero aun no los mostramos. Para mostrarlos nuestros componentes tienen que tener acceso al servicio.
 
 ```typescript
