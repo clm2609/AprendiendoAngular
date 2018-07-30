@@ -202,7 +202,7 @@ Asi añades el nuevo comando a los npm, pudiendo ejecutarlo con:
 $ npm run build-prod
 ```
 
-Aunque en nuestro ejemplo esto da un error. Para resolverlo modificamos details.component.html para rodearlo con una directiva que compruebe que existe un usuario antes de intentar mostrarlo, resultando en un error:
+Aunque en nuestro ejemplo esto da un error. Para resolverlo modificamos details.component.html para rodearlo con una directiva que compruebe que existe un usuario antes de intentar mostrarlo, evitando el error:
 
 ```html
 <div *ngIf="user$">

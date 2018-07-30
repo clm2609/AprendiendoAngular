@@ -257,7 +257,7 @@ export class CountdownViewChildParentComponent implements AfterViewInit {
 
 ### Bidireccional mediante un servicio
 
-Otra forma de comunicacion seria mediante un servicio:
+Otra forma de comunicacion seria mediante un servicio.
 Servicio:
 
 ```typescript
@@ -566,4 +566,4 @@ export class MenuComponent implements OnInit {
 <p>{{ 'HOME.LOGIN' | translate }}</p>
 ```
 
-Ahora cuando te conectes puedes ver las traducciones, dependiendo de en que idioma tengas en el navegador. Tambien puedes modificarlo con la funcion  changeLanguage(newLang) del servicio, pasandole ```"es"``` o ```"en"```.
+Ahora cuando te conectes puedes ver las traducciones, dependiendo de en que idioma tengas en el navegador. Tambien puedes modificarlo con la funcion  changeLanguage(newLang) del servicio, pasandole ```"es"``` o ```"en"```, o modificar el servicio para que dependa del entorno en el que estas.
