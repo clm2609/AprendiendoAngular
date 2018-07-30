@@ -379,3 +379,191 @@ export class AstronautComponent implements OnDestroy {
 }
 ```
 
+## Entornos
+
+Puedes crear distintos entornos, para ello debes crear un archivo de entorno en ```/src/environments```. Este archivo debe ser una copia del archivo ```environment.ts```, cambiando los campos que necesites cambiar. Como minimo debes cambiar el nombre. Por ejemplo, environment.ts original:
+
+```typescript
+...
+export const environment = {
+  production: false,
+};
+...
+```
+
+Lo primero que debes hacer es añadir un nombre:
+
+```typescript
+...
+export const environment = {
+  production: false,
+  envName: 'dev',
+};
+...
+```
+
+Tambien puedes añadir las variables de entorno que desees:
+
+```typescript
+...
+export const environment = {
+  production: false,
+  envName: 'dev',
+  serverUrl: 'http://api.undominiomuychulo.com'
+};
+...
+```
+
+Hecho esto podemos acceder a la variable ```serverUrl``` desde nuestros servicios:
+
+```typescript
+...
+import {environment} from '../environments/environment';
+...
+getSOmething() {
+  return this.http.get(environment.serverUrl+'/something')
+}
+
+```
+
+El problema es que si solo estas desarrollando el frontend ahora eres dependiente de que ```http://api.undominiomuychulo.com``` este disponible para hacer pruebas. Lo mejor que puedes hacer es crear un entorno de mock.
+
+Creamos el archivo ```environment.mock.js```:
+
+```typescript
+export const environment = {
+    production: false,
+    envName: 'mock',
+    serverUrl: 'http://localhost:5000'
+};
+```
+
+Ahora debemos registrarlo en la configuracion de Angular CLI, Para ellos debemos añadir lo siguiente en ```angular.json```:
+
+```json
+"mock": {
+  "fileReplacements": [
+    {
+      "replace": "src/environments/environment.ts",
+      "with": "src/environments/environment.mock.ts"
+    }
+  ]
+}
+...
+"mock": {
+  "browserTarget": "RolWebAngular6:build:mock"
+}
+```
+
+El primer fragmento añade bajo ```...architect.build.configurations``` y el segundo bajo ```...architect.serve.configurations```.
+
+Hecho esto puedes servir la aplicacion con el entorno de mock con el siguiente comando:
+
+```console
+$ ng serve -c mock
+```
+
+Ahora desde tu servicio cuando intentes hacer consultas estas se realizaran a ```http://localhost:5000```, donde puedes levantar un mock facilmente para probar.
+
+## Traducciones
+
+Por defecto Angular usa i18n para las traduccciones. Para ponerlo en funcionamiento debemos:
+
+* Crear una carpeta llamada ```/src/assets/i18n```
+* Meter los archivos de traducciones, con un formato de este estilo:
+
+```json
+{
+    "HOME":{
+        "REGISTER": "Registrate para poder entrar",
+        "LOGIN": "Logueate"
+    }
+  }
+```
+
+```json
+{
+    "HOME":{
+        "REGISTER": "Please register to get access",
+        "LOGIN": "Login"
+    }
+  }
+```
+
+* Añade lo siguiente al module:
+
+```typescript
+...
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
+...
+imports: [
+  ...
+  TranslateModule.forRoot({
+    loader: {
+      provide: TranslateLoader,
+      useFactory: HttpLoaderFactory,
+      deps: [HttpClient]
+    }
+  })
+}
+```
+
+* crear un servicio de traducciones para centralizar el control del idioma:
+
+```typescript
+import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TranslationService {
+
+  constructor(public translate: TranslateService) {
+    translate.addLangs(['en', 'es']);
+    translate.setDefaultLang('es');
+
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|es/) ? browserLang : 'es');
+  }
+  getTranslation(){
+    return this.translate;
+  }
+  changeLanguage(newLang){
+    this.translate.use(newLang);
+  }
+}
+```
+
+* Desde el componente que quieras acceder a las traducciones:
+
+```typescript
+...
+import { TranslationService } from '../translation.service';
+import { TranslateService } from '@ngx-translate/core';
+...
+export class MenuComponent implements OnInit {
+  translate: TranslateService;
+
+  constructor(private translation: TranslationService) {}
+
+  ngOnInit() {
+    this.translate = this.translation.getTranslation();
+  }
+}
+```
+
+* Y finalmente en su template:
+
+```html
+<p>{{ 'HOME.REGISTER' | translate }}</p>
+<p>{{ 'HOME.LOGIN' | translate }}</p>
+```
+
+Ahora cuando te conectes puedes ver las traducciones, dependiendo de en que idioma tengas en el navegador. Tambien puedes modificarlo con la funcion  changeLanguage(newLang) del servicio, pasandole ```"es"``` o ```"en"```.
