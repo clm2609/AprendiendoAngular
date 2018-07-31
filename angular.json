@@ -48,6 +48,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true
+            },
+            "dev-en": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev-en.ts"
+                }
+              ]            
             }
           }
         },
@@ -59,6 +67,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ng6-crash-course:build:production"
+            },
+            "dev-en": {
+              "browserTarget": "ng6-crash-course:build:dev-en"
             }
           }
         },

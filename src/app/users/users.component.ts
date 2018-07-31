@@ -32,12 +32,14 @@ import { trigger, style, transition, animate, keyframes, query, stagger } from '
   ]
 })
 export class UsersComponent implements OnInit {
-
+ 
   users$: Object;
 
   constructor(private data: DataService) { }
 
   ngOnInit() {
+    
+  
     this.data.getUsers().subscribe(
       data => this.users$ = data
     );

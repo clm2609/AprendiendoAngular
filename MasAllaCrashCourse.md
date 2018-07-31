@@ -468,6 +468,12 @@ Ahora desde tu servicio cuando intentes hacer consultas estas se realizaran a ``
 ## Traducciones
 
 Por defecto Angular usa i18n para las traduccciones. Para ponerlo en funcionamiento debemos:
+* Instalar ngx/translate:
+
+```console
+$ npm install @ngx-translate/core --save
+$ npm install @ngx-translate/http-loader --save
+```
 
 * Crear una carpeta llamada ```/src/assets/i18n```
 * Meter los archivos de traducciones, con un formato de este estilo:
